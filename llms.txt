@@ -1,0 +1,18 @@
+# deploydelta
+
+> Deploy-aware Prometheus comparison. Point it at your Prometheus, give it
+> the deploy time, and it reports which metrics actually moved, with
+> statistics (ratio + p-value) instead of dashboard eyeballing. Exit 1 on
+> regression.
+
+## Usage
+
+- deploydelta --prometheus URL --service NAME --since TIME compares a window on each side of the deploy (env DEPLOYDELTA_PROMETHEUS/SERVICE/SINCE).
+- --window sets the comparison window (default 15m); --min-count, --ratio, --p tune flagging.
+- Convention discovery probes common request counters (http_requests_total, grpc_server_handled_total, histogram _counts) and service/job/app labels; --metric/--query override.
+- Splits by route/status labels so a shift is attributed to the endpoint that moved.
+- Exit codes: 0 nothing flagged, 1 regression, 2 usage/discovery error. --no-fail reports only.
+
+## Docs
+
+- [README](https://github.com/ofershap/deploydelta#readme): install, discovery, verdict semantics
